@@ -37,7 +37,7 @@ const Header = () => {
               My bookings
             </Link>
             <Link
-              to={"/my-hotels"}
+              to={"/add-hotels"}
               className={`${navLinkClass} ${
                 pathname === "/my-hotels" ? activeClass : ""
               }`}

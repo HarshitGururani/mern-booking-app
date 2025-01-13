@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as apiClient from "../api-client";
 import registerImage from "../assets/register-image.png";
+import { TbLoader2 } from "react-icons/tb";
 export interface RegisterFormData {
   firstName: string;
   lastName: string;
@@ -23,7 +24,7 @@ const Register = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(apiClient.register, {
+  const { mutate, isLoading } = useMutation(apiClient.register, {
     onSuccess: async () => {
       toast.success("Registration Success!");
       await queryClient.invalidateQueries("validateToken");
@@ -35,7 +36,7 @@ const Register = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
+    mutate(data);
   });
 
   return (
@@ -143,10 +144,13 @@ const Register = () => {
                   </Link>
                 </span>
                 <button
-                  className="bg-primary text-white px-4 py-2 rounded text-base font-bold mb-4 md:mb-0"
+                  className={`bg-primary text-white px-4 py-2 rounded text-base font-bold mb-4 md:mb-0 ${
+                    isLoading && "bg-primary/35 flex items-center gap-1"
+                  }`}
                   type="submit"
                 >
-                  Create Account
+                  {isLoading ? "Creating Account" : "Create Account"}
+                  {isLoading && <TbLoader2 className="size-5 animate-spin" />}
                 </button>
               </div>
             </div>

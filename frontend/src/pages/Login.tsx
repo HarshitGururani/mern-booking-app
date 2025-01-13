@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as apiClient from "../api-client";
 import loginImage from "../assets/login-image.png";
+import { TbLoader2 } from "react-icons/tb";
 
 export interface LoginFormData {
   email: string;
@@ -20,7 +21,7 @@ const Login = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const mutation = useMutation(apiClient.Login, {
+  const { mutate, isLoading } = useMutation(apiClient.Login, {
     onSuccess: async () => {
       toast.success("Registration Success!");
       await queryClient.invalidateQueries("validateToken");
@@ -32,7 +33,7 @@ const Login = () => {
   });
 
   const onSubmit = handleSubmit((data) => {
-    mutation.mutate(data);
+    mutate(data);
   });
 
   return (
@@ -89,6 +90,7 @@ const Login = () => {
                   type="submit"
                 >
                   Login
+                  {isLoading && <TbLoader2 className="size-5 animate-spin" />}
                 </button>
               </div>
             </form>
