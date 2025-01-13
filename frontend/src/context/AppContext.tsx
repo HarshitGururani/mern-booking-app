@@ -1,38 +1,48 @@
 /* eslint-disable react-refresh/only-export-components */
-import React, { useContext } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { useQuery } from "react-query";
 import * as apiClient from "../api-client";
-interface AppConext {
-  isLoggedIn: boolean;
-}
 
-const AppConext = React.createContext<AppConext | undefined>(undefined);
+type AppContext = {
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  loading: boolean;
+};
+
+const AppContext = createContext<AppContext | undefined>(undefined);
 
 export const AppContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const { isError } = useQuery("validateToken", apiClient.validateToken, {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { error } = useQuery("validateToken", apiClient.validateToken, {
     retry: false,
+    onSuccess: () => {
+      setIsLoggedIn(true);
+      setLoading(false);
+    },
+    onError: () => {
+      setIsLoggedIn(false);
+      setLoading(false);
+      console.log(error);
+    },
   });
+
   return (
-    <AppConext.Provider
-      value={{
-        isLoggedIn: !isError,
-      }}
-    >
+    <AppContext.Provider value={{ isLoggedIn, setIsLoggedIn, loading }}>
       {children}
-    </AppConext.Provider>
+    </AppContext.Provider>
   );
 };
 
 export const useAppContext = () => {
-  const context = useContext(AppConext);
-
+  const context = useContext(AppContext);
   if (!context) {
     throw new Error("useAppContext must be used within an AppContextProvider");
   }
-
   return context;
 };

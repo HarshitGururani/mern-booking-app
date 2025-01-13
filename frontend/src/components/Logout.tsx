@@ -1,31 +1,28 @@
 import { useMutation, useQueryClient } from "react-query";
-import * as apiClient from "../api-client";
 import { toast } from "react-toastify";
+import * as apiClient from "../api-client";
 
-const SingOutButton = () => {
+const LogOut = () => {
   const queryClient = useQueryClient();
-  const mutation = useMutation(apiClient.signout, {
+  const mutation = useMutation(apiClient.logout, {
     onSuccess: async () => {
       await queryClient.invalidateQueries("validateToken");
-      toast.success("Signed out successfully");
+      toast.success("Signed Out!");
     },
-    onError(error: Error) {
-      console.log(error);
+    onError: (error: Error) => {
       toast.error(error.message);
     },
   });
-
   const handleClick = () => {
     mutation.mutate();
   };
   return (
     <button
-      className="text-blue-600 px-3 py-1 font-bold bg-white hover:bg-gray-100 transition-colors rounded
-    "
+      className="bg-primary py-2 px-4 font-semibold rounded-lg text-white ml-10"
       onClick={handleClick}
     >
-      Sign out
+      Logout
     </button>
   );
 };
-export default SingOutButton;
+export default LogOut;

@@ -1,14 +1,29 @@
 import {
-  BrowserRouter as Router,
   Navigate,
   Route,
+  BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import AddHotel from "./pages/AddHotel";
+import Hero from "./components/Hero";
 import Layout from "./layouts/Layout";
+import Login from "./pages/Login";
 import Register from "./pages/Register";
-import SignIn from "./pages/SignIn";
+import { useAppContext } from "./context/AppContext";
 
-function App() {
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isLoggedIn, loading } = useAppContext();
+  if (loading) {
+    return (
+      <>
+        <p className="text-primary animate-pulse">Loading...</p>
+      </>
+    );
+  }
+  return isLoggedIn ? children : <Navigate to={"/login"} />;
+};
+
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -16,11 +31,10 @@ function App() {
           path="/"
           element={
             <Layout>
-              <p>Home page</p>
+              <Hero />
             </Layout>
           }
         />
-        <Route path="/search" element={<Layout>Search page</Layout>} />
         <Route
           path="/register"
           element={
@@ -30,17 +44,28 @@ function App() {
           }
         />
         <Route
-          path="/sign-in"
+          path="/login"
           element={
             <Layout>
-              <SignIn />
+              <Login />
             </Layout>
           }
         />
-        <Route path="*" element={<Navigate to={"/"} />} />
+
+        <Route
+          path="/add-hotel"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <AddHotel />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );
-}
-
+};
 export default App;

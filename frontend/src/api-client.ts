@@ -1,62 +1,97 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import axios from "axios";
 import { RegisterFormData } from "./pages/Register";
-import { SignInFormData } from "./pages/SignIn";
+import { LoginFormData } from "./pages/Login";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const register = async (formData: RegisterFormData) => {
-  const response = await fetch(`${API_BASE_URL}/api/users/register`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/users/register`,
+      JSON.stringify(formData),
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-  const responseBody = await response.json();
-
-  if (!response.ok) {
-    throw new Error(responseBody.message);
+    return response.data;
+  } catch (error: any) {
+    const errorMessage =
+      error?.response?.data?.message || "An unexpected error occurred";
+    throw new Error(errorMessage);
   }
 };
 
 export const validateToken = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
-    credentials: "include",
-  });
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/api/auth/validate-token`,
+      {
+        withCredentials: true,
+      }
+    );
 
-  if (!response.ok) {
-    throw new Error("Token invalid");
+    return response.data;
+  } catch (error: any) {
+    const errorMessage =
+      error?.response?.data?.message || "An unexpected error occurred";
+    throw new Error(errorMessage);
   }
-
-  return response.json();
 };
 
-export const signIn = async (formData: SignInFormData) => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formData),
-  });
-
-  const body = await response.json();
-
-  if (!response.ok) {
-    throw new Error("An error occurred during sign-in");
+export const Login = async (formData: LoginFormData) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/auth/login`,
+      formData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    const errorMessage =
+      error?.response?.data?.message || "An unexpected error occurred";
+    throw new Error(errorMessage);
   }
-
-  return body;
 };
 
-export const signout = async () => {
-  const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
-    method: "POST",
-    credentials: "include",
-  });
-  if (!response.ok) {
-    throw new Error("Error during sign out");
+export const logout = async () => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/api/auth/logout`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    if (response.status !== 200) {
+      throw new Error("Error during sign out");
+    }
+  } catch (error: any) {
+    const errorMessage = error?.response.data?.message || "Error during Logout";
+    throw new Error(errorMessage);
   }
+};
+
+export const addMyHotel = async (hotelFormData: FormData) => {
+  const response = await axios.post(
+    `${API_BASE_URL}/api/my-hotels`,
+    hotelFormData,
+    {
+      withCredentials: true,
+    }
+  );
+  if (response.status !== 201) {
+    throw new Error("Failed to add hotel");
+  }
+
+  return response.data;
 };

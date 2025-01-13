@@ -1,44 +1,75 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import SingOutButton from "./SingOutButton";
+import LogOut from "./LogOut";
 
 const Header = () => {
+  const { pathname } = useLocation(); // Destructure pathname for simplicity
   const { isLoggedIn } = useAppContext();
-  return (
-    <div className="bg-blue-800 py-6">
-      <div className="container mx-auto flex justify-between">
-        <span className="text-3xl text-white font-bold tracking-tight">
-          <Link to={"/"}>MernHoliday.com</Link>
-        </span>
-        <span className="flex space-x-2">
-          {isLoggedIn ? (
-            <>
-              <Link
-                className="flex items-center text-white px-3 py-1 font-bold hover:bg-blue-500/30 rounded transition-colors border border-white"
-                to={"/my-bookings"}
-              >
-                My Bookings
-              </Link>
-              <Link
-                className="flex items-center text-white px-3 py-1 font-bold hover:bg-blue-500/30 rounded transition-colors border border-white border-"
-                to={"/my-hotels"}
-              >
-                My Hotels
-              </Link>
 
-              <SingOutButton />
-            </>
-          ) : (
+  const navLinkClass = "text-base font-medium";
+  const activeClass = "text-primary";
+
+  return (
+    <div className="flex justify-between py-4 px-4 md:px-1">
+      <Link to={"/"}>
+        <h1 className="text-primary font-bold text-3xl tracking-tighter">
+          booking<span className="text-black">.com</span>
+        </h1>
+      </Link>
+
+      <div className="flex items-center gap-24">
+        {isLoggedIn && (
+          <div className="flex gap-5 items-center">
             <Link
-              to={"/sign-in"}
-              className="flex items-center text-blue-600 px-3 font-bold bg-white hover:bg-green-100 rounded"
+              to={"/"}
+              className={`${navLinkClass} ${
+                pathname === "/" ? activeClass : ""
+              }`}
             >
-              Sign In
+              Home
             </Link>
-          )}
-        </span>
+            <Link
+              to={"/my-bookings"}
+              className={`${navLinkClass} ${
+                pathname === "/my-bookings" ? activeClass : ""
+              }`}
+            >
+              My bookings
+            </Link>
+            <Link
+              to={"/my-hotels"}
+              className={`${navLinkClass} ${
+                pathname === "/my-hotels" ? activeClass : ""
+              }`}
+            >
+              My hotels
+            </Link>
+
+            <div className="flex gap-6 items-center">
+              <LogOut />
+            </div>
+          </div>
+        )}
+
+        {!isLoggedIn && (
+          <div className="flex gap-6 items-center">
+            <Link
+              to={"/login"}
+              className="bg-secondary py-2 px-4 rounded-lg font-semibold"
+            >
+              Login
+            </Link>
+            <Link
+              to={"/register"}
+              className="bg-primary py-2 px-4 font-semibold rounded-lg text-white"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
 };
+
 export default Header;

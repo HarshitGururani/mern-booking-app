@@ -1,18 +1,16 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import Hero from "../components/Hero";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-const Layout = ({ children }: Props) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col min-h-screen">
-      <Header />
-      <Hero />
-      <div className="container mx-auto py-6 flex-1">{children}</div>
-      <Footer />
+      <div className="flex-1 max-w-[1100px] mx-auto w-full">
+        <Header />
+        <div className="">{children}</div>
+      </div>
+      <div className="max-w-[1100px] mx-auto w-full">
+        <Footer />
+      </div>
     </div>
   );
 };
