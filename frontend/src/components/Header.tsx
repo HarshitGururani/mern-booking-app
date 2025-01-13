@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import LogOut from "./LogOut";
+import LogOut from "./Logout";
 
 const Header = () => {
   const { pathname } = useLocation(); // Destructure pathname for simplicity
