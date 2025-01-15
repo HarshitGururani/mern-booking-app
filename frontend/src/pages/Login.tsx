@@ -23,7 +23,7 @@ const Login = () => {
 
   const { mutate, isLoading } = useMutation(apiClient.Login, {
     onSuccess: async () => {
-      toast.success("Registration Success!");
+      toast.success("Login Successfull!");
       await queryClient.invalidateQueries("validateToken");
       navigate("/");
     },
@@ -62,6 +62,7 @@ const Login = () => {
                   </p>
                 )}
               </label>
+
               <label className="text-gray-700 text-sm font-bold">
                 Password
                 <input

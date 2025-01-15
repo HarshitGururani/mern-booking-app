@@ -7,23 +7,23 @@ test("should not allow the user to sign in", async ({ page }) => {
   await page.goto(UI_URL);
 
   // Click the sign-in link
-  await page.getByRole("link", { name: "Sign in" }).click();
+  await page.getByRole("link", { name: "Login" }).click();
 
   // Ensure the sign-in page is loaded
-  await expect(page.getByRole("heading", { name: "Sign In" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Login" })).toBeVisible();
 
   // Fill in credentials
   await page.locator('[name="email"]').fill("1@1.com");
   await page.locator('[name="password"]').fill("password123");
 
   // Click the login button
-  await page.getByRole("button", { name: "Sign in" }).click();
+  await page.getByRole("button", { name: "Login" }).click();
 
   // Validate dashboard elements are visible
-  await expect(page.getByText("Sign in Successfull")).toBeVisible();
+  await expect(page.getByText("Login Successfull!")).toBeVisible();
   await expect(page.getByRole("link", { name: "My Bookings" })).toBeVisible();
   await expect(page.getByRole("link", { name: "My Hotels" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
 });
 
 test("should allow user to register", async ({ page }) => {
@@ -33,12 +33,9 @@ test("should allow user to register", async ({ page }) => {
 
   await page.goto(UI_URL);
 
-  await page.getByRole("link", { name: "Sign In" }).click();
-  await page.getByRole("link", { name: "register" }).click();
+  await page.getByRole("link", { name: "Register" }).click();
 
-  await expect(
-    page.getByRole("heading", { name: "Create an Account" })
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Register" })).toBeVisible();
 
   await page.locator("[name=firstName]").fill("test_firstName");
   await page.locator("[name=lastName]").fill("test_lastName");
@@ -51,5 +48,5 @@ test("should allow user to register", async ({ page }) => {
   await expect(page.getByText("Registration Success!")).toBeVisible();
   await expect(page.getByRole("link", { name: "My Bookings" })).toBeVisible();
   await expect(page.getByRole("link", { name: "My Hotels" })).toBeVisible();
-  await expect(page.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await expect(page.getByRole("button", { name: "Logout" })).toBeVisible();
 });
