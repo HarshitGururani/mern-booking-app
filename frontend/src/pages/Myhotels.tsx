@@ -6,16 +6,42 @@ import { MdCurrencyRupee } from "react-icons/md";
 import { BiHotel, BiStar } from "react-icons/bi";
 
 const Myhotels = () => {
-  const { data: hotelData } = useQuery("fetchMyHotels", apiClient.myHotels, {
+  const {
+    data: hotelData,
+    isLoading,
+    error,
+  } = useQuery("fetchMyHotels", apiClient.myHotels, {
     onError: (error: Error) => {
       console.log(error);
     },
   });
 
+  if (error) {
+    return (
+      <span className="text-lg font-bold text-center  text-destructive my-10">
+        Failed to load hotels. Please try again later.
+      </span>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="text-center text-lg text-primary my-10 animate-bounce">
+        Loading hotels...
+      </div>
+    );
+  }
+
   if (!hotelData) {
     return (
-      <span className="text-primary text-2xl font-bold flex items-center justify-center my-10 animate-bounce">
-        No hotels Found
+      <span className="text-primary text-2xl font-bold flex flex-col items-center justify-center my-10">
+        <span className="animate-bounce">No hotels found</span>
+        <Link
+          to="/add-hotel"
+          className="mt-4 bg-primary text-white text-lg font-bold py-2 px-4 hover:bg-tint rounded"
+        >
+          Add your first hotel
+        </Link>
       </span>
     );
   }
