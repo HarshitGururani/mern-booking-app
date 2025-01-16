@@ -87,7 +87,7 @@ const Login = () => {
                   </Link>
                 </span>
                 <button
-                  className="bg-primary text-white px-5 py-2 rounded text-lg font-bold mb-4 md:mb-0"
+                  className="bg-primary text-white px-5 py-2 rounded text-lg font-bold mb-4 md:mb-0 flex items-center gap-2"
                   type="submit"
                 >
                   Login

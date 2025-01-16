@@ -10,7 +10,7 @@ const Header = () => {
   const activeClass = "text-primary";
 
   return (
-    <div className="flex justify-between py-4 px-4 md:px-1">
+    <div className="flex justify-between py-4 ">
       <Link to={"/"}>
         <h1 className="text-primary font-bold text-3xl tracking-tighter">
           booking<span className="text-black">.com</span>
@@ -37,7 +37,7 @@ const Header = () => {
               My bookings
             </Link>
             <Link
-              to={"/add-hotels"}
+              to={"/my-hotels"}
               className={`${navLinkClass} ${
                 pathname === "/my-hotels" ? activeClass : ""
               }`}

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { RegisterFormData } from "./pages/Register";
+import { HotelType } from "../../backend/src/shared/types";
 import { LoginFormData } from "./pages/Login";
-
+import { RegisterFormData } from "./pages/Register";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const register = async (formData: RegisterFormData) => {
@@ -91,6 +91,18 @@ export const addMyHotel = async (hotelFormData: FormData) => {
   );
   if (response.status !== 201) {
     throw new Error("Failed to add hotel");
+  }
+
+  return response.data;
+};
+
+export const myHotels = async (): Promise<HotelType[]> => {
+  const response = await axios.get(`${API_BASE_URL}/api/my-hotels`, {
+    withCredentials: true,
+  });
+
+  if (response.status !== 200) {
+    throw new Error("Error during fetching hotels");
   }
 
   return response.data;

@@ -2,8 +2,9 @@ import cloudinary from "cloudinary";
 import express, { Request, Response } from "express";
 import multer from "multer";
 import { verifyToken } from "../middleware/auth";
-import Hotel, { HotelInterface } from "../models/hotels";
+import Hotel from "../models/hotels";
 import { addHotelValidation } from "../validatiors/addHotelValidation";
+import { HotelType } from "../shared/types";
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -22,7 +23,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const imageFiles = req.files as Express.Multer.File[];
-      const newHotel: HotelInterface = req.body;
+      const newHotel: HotelType = req.body;
 
       //1. upload the images to cloudinary
       const uplaodPromises = imageFiles.map(async (image) => {
@@ -50,5 +51,14 @@ router.post(
     }
   }
 );
+
+router.get("/", verifyToken, async (req: Request, res: Response) => {
+  try {
+    const hotels = await Hotel.find({ userId: req.userId });
+    res.status(200).json(hotels);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching hotels " });
+  }
+});
 
 export default router;
