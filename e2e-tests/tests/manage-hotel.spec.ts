@@ -58,7 +58,7 @@ test("Should display hotels", async ({ page }) => {
   await expect(page.getByText("This is a description")).toBeVisible();
 
   await expect(page.getByText(", Test country")).toBeVisible();
-  A;
+
   await expect(page.getByText("Budget")).toBeVisible();
   await expect(page.getByText("100 per night")).toBeVisible();
   await expect(page.getByText("4 adults ,2 children")).toBeVisible();
@@ -66,4 +66,10 @@ test("Should display hotels", async ({ page }) => {
 
   await expect(page.getByRole("link", { name: "View Details" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Add Hotel" })).toBeVisible();
+});
+
+test("should edit hotel", async ({ page }) => {
+  await page.goto(`${UI_URL}my-hotels`);
+
+  await page.getByRole("link", { name: "View Details" }).click();
 });

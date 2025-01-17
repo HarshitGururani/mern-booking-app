@@ -1,14 +1,20 @@
 import { useFormContext } from "react-hook-form";
 import { HotelFormData } from "./ManageHotelForm";
 
-const DetailsSection = () => {
+interface DetailsSectionProps {
+  title?: string;
+}
+
+const DetailsSection = ({ title }: DetailsSectionProps) => {
   const {
     register,
     formState: { errors },
   } = useFormContext<HotelFormData>();
   return (
     <div className="">
-      <h2 className="text-primary text-3xl font-bold mb-3">Add Hotel</h2>
+      <h2 className="text-primary text-3xl font-bold mb-3">
+        {title ? title : "Add"} Hotel
+      </h2>
       <label className="text-gray-700 text-base font-bold">
         Name
         <input
