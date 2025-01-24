@@ -5,7 +5,7 @@ import { MdLocalPhone } from "react-icons/md";
 import { LuMapPin } from "react-icons/lu";
 const Footer = () => {
   return (
-    <div className="px-2 py-10 grid grid-cols-2 md:grid-cols-4 gap-5 ">
+    <div className="px-1 py-10 grid grid-cols-2 md:grid-cols-4 gap-5 ">
       <div className="flex flex-col gap-3">
         <Link to={"/"}>
           <h1 className="text-primary font-bold text-3xl tracking-tighter">

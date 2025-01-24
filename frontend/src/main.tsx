@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ToastContainer } from "react-toastify";
 import { AppContextProvider } from "./context/AppContext.tsx";
+import { SearchContextProvider } from "./context/SearchContext.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AppContextProvider>
-        <App />
+        <SearchContextProvider>
+          <App />
+        </SearchContextProvider>
       </AppContextProvider>
       <ToastContainer />
     </QueryClientProvider>

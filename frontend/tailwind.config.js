@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         background: withHSL("--background"),
         tint: "#fc9051",
+        tint2: "#fdf2e9",
         foreground: withHSL("--foreground"),
         card: withHSL("--card"),
         "card-foreground": withHSL("--card-foreground"),

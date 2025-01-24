@@ -10,7 +10,7 @@ const Header = () => {
   const activeClass = "text-primary";
 
   return (
-    <div className="flex justify-between py-4 ">
+    <div className="flex justify-between py-4">
       <Link to={"/"}>
         <h1 className="text-primary font-bold text-3xl tracking-tighter">
           booking<span className="text-black">.com</span>
