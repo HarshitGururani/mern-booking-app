@@ -19,6 +19,10 @@ const Details = () => {
     return <>not</>;
   }
 
+  if (isLoading) {
+    return <p>loading...</p>;
+  }
+
   return (
     <div className="space-y-6  my-8">
       <div>
