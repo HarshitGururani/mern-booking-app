@@ -13,6 +13,7 @@ import { useAppContext } from "./context/AppContext";
 import Myhotels from "./pages/Myhotels";
 import EditHotels from "./pages/EditHotels";
 import Search from "./pages/Search";
+import Details from "./pages/Details";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isLoggedIn, loading } = useAppContext();
@@ -91,6 +92,14 @@ const App = () => {
               <ProtectedRoute>
                 <EditHotels />
               </ProtectedRoute>
+            </Layout>
+          }
+        />
+        <Route
+          path="/detail/:hotelId"
+          element={
+            <Layout>
+              <Details />
             </Layout>
           }
         />

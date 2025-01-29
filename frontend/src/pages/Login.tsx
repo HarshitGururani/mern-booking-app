@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as apiClient from "../api-client";
 import loginImage from "../assets/login-image.png";
@@ -20,12 +20,13 @@ const Login = () => {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const location = useLocation();
 
   const { mutate, isLoading } = useMutation(apiClient.Login, {
     onSuccess: async () => {
       toast.success("Login Successfull!");
       await queryClient.invalidateQueries("validateToken");
-      navigate("/");
+      navigate(location.state?.from?.pathname || "/");
     },
     onError: (error: Error) => {
       toast.error(error.message);

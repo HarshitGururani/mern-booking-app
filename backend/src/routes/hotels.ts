@@ -1,6 +1,7 @@
 import express, { query, Request, Response } from "express";
 import Hotel from "../models/hotels";
 import { HotelSearchResponse } from "../shared/types";
+import { param, validationResult } from "express-validator";
 
 const router = express.Router();
 
@@ -31,8 +32,6 @@ router.get("/search", async (req: Request, res: Response) => {
       .sort(sortOptions)
       .skip(skip)
       .limit(pageSize);
-
-    console.log(hotels); // Verify the order
 
     const total = await Hotel.countDocuments(query);
 
@@ -106,5 +105,31 @@ const constructSearchQuery = (queryParams: any) => {
 
   return constructedQuery;
 };
+
+router.get(
+  "/:id",
+  [param("id").notEmpty().withMessage("Hotel ID is required")],
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    try {
+      const id = req.params.id.toString();
+      const hotel = await Hotel.findOne({
+        _id: id,
+      });
+
+      if (!hotel) {
+        return res.status(404).json({ message: "Hotel not found" });
+      }
+
+      res.status(200).json(hotel);
+    } catch (error) {
+      console.error("Error fetching hotel:", error);
+      res.status(500).json({ message: "Error fetching hotel" });
+    }
+  }
+);
 
 export default router;

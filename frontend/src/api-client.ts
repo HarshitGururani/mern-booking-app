@@ -181,3 +181,13 @@ export const searchHotels = async (
 
   return response.data;
 };
+
+export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
+  const response = await axios.get(`${API_BASE_URL}/api/hotels/${hotelId}`);
+
+  if (response.status !== 200) {
+    throw new Error("Error Fetching Hotels");
+  }
+
+  return response.data;
+};
