@@ -47,8 +47,8 @@ const Details = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-        {hotel.facilities.map((facility) => (
-          <div className="border border-slate-300 rounded-md p-3">
+        {hotel.facilities.map((facility, id) => (
+          <div className="border border-slate-300 rounded-md p-3" key={id}>
             {facility}
           </div>
         ))}

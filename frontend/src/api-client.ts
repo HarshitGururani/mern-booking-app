@@ -1,8 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
-import { HotelSearchResponse, HotelType } from "../../backend/src/shared/types";
+import {
+  HotelSearchResponse,
+  HotelType,
+  paymentIntentResponse,
+  UserType,
+} from "../../backend/src/shared/types";
 import { LoginFormData } from "./pages/Login";
 import { RegisterFormData } from "./pages/Register";
+import { BookingFormData } from "./forms/BookingFrom/BookingForm";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const register = async (formData: RegisterFormData) => {
@@ -190,4 +196,55 @@ export const fetchHotelById = async (hotelId: string): Promise<HotelType> => {
   }
 
   return response.data;
+};
+
+export const fetchCurrentUser = async (): Promise<UserType> => {
+  const response = await axios.get(`${API_BASE_URL}/api/users/me`, {
+    withCredentials: true,
+  });
+
+  if (response.status !== 200) {
+    throw new Error("Error fetching user");
+  }
+
+  return response.data;
+};
+
+export const createPaymentIntent = async (
+  hotelId: string,
+  numberOfNights: number
+): Promise<paymentIntentResponse> => {
+  const response = await axios.post(
+    `${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,
+    JSON.stringify({ numberOfNights }),
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (response.status !== 200) {
+    throw new Error("Error fetching payment intent");
+  }
+
+  return response.data;
+};
+
+export const createBooking = async (formData: BookingFormData) => {
+  const response = await axios.post(
+    `${API_BASE_URL}/api/hotels/${formData.hotelId}/booking`,
+    JSON.stringify(formData),
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (response.status !== 200) {
+    throw new Error("Error booking room");
+  }
 };

@@ -19,7 +19,7 @@ const Header = () => {
 
       <div className="flex items-center gap-24">
         {isLoggedIn && (
-          <div className="flex gap-5 items-center">
+          <div className="hidden md:flex gap-5 items-center">
             <Link
               to={"/"}
               className={`${navLinkClass} ${

@@ -14,6 +14,7 @@ import Myhotels from "./pages/Myhotels";
 import EditHotels from "./pages/EditHotels";
 import Search from "./pages/Search";
 import Details from "./pages/Details";
+import Booking from "./pages/Booking";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isLoggedIn, loading } = useAppContext();
@@ -95,6 +96,18 @@ const App = () => {
             </Layout>
           }
         />
+
+        <Route
+          path="/hotel/:hotelId/booking"
+          element={
+            <Layout>
+              <ProtectedRoute>
+                <Booking />
+              </ProtectedRoute>
+            </Layout>
+          }
+        />
+
         <Route
           path="/detail/:hotelId"
           element={
