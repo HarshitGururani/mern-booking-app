@@ -248,3 +248,15 @@ export const createBooking = async (formData: BookingFormData) => {
     throw new Error("Error booking room");
   }
 };
+
+export const fetchMyBookings = async (): Promise<HotelType[]> => {
+  const response = await axios.get(`${API_BASE_URL}/api/my-bookings`, {
+    withCredentials: true,
+  });
+
+  if (response.status !== 200) {
+    throw new Error("Unable to fetch bookings");
+  }
+
+  return response.data;
+};
