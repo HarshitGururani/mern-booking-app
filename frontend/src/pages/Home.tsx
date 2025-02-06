@@ -3,7 +3,7 @@ import * as apiclient from "../api-client";
 import LatestDestinationCard from "../components/LatestDestinationCard";
 
 const Home = () => {
-  const { data: hotels } = useQuery("fetchHotels", () =>
+  const { data: hotels, isLoading } = useQuery("fetchHotels", () =>
     apiclient.fetchHotel()
   );
   if (!hotels) {
@@ -20,13 +20,21 @@ const Home = () => {
       <div className="grid gap-4">
         <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
           {topRowHotels.map((hotel, id) => (
-            <LatestDestinationCard hotel={hotel} key={id} />
+            <LatestDestinationCard
+              hotel={hotel}
+              key={id}
+              isLoading={isLoading}
+            />
           ))}
         </div>
 
         <div className="grid md:grid-cols-3 gap-4">
           {bottomRowHotels.map((hotel, id) => (
-            <LatestDestinationCard hotel={hotel} key={id} />
+            <LatestDestinationCard
+              hotel={hotel}
+              key={id}
+              isLoading={isLoading}
+            />
           ))}
         </div>
       </div>
