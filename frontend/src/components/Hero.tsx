@@ -1,6 +1,7 @@
 import Hotel1 from "../assets/hotel1.jpg";
 import Hotel2 from "../assets/hotel2.jpg";
 import Hotel3 from "../assets/hotel3.jpg";
+import Home from "../pages/Home";
 import SearchBar from "./SearchBar";
 
 const Hero = () => {
@@ -34,6 +35,10 @@ const Hero = () => {
       </div>
       <div className="">
         <SearchBar />
+      </div>
+
+      <div className="mt-6">
+        <Home />
       </div>
     </>
   );
